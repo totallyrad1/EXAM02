@@ -1,35 +1,23 @@
-  typedef struct  s_point
-  {
-    int           x;
-    int           y;
-  }               t_point;
-
-void fill(char **tab, t_point size, t_point current, char target, char tofillwith)
+#include <stdlib.h>
+#include <stdio.h>
+typedef struct  s_point
 {
-    if (current.x < 0 || current.x >= size.x || current.y < 0 || current.y >= size.y)
-        return;
+  int           x;
+  int           y;
+}               t_point;
 
-    if (tab[current.y][current.x] != target)
-        return;
-
-    tab[current.y][current.x] = tofillwith;
-
-    // Recur for all connected neighbors
-    fill(tab, size, (t_point){current.x - 1, current.y}, target, tofillwith); // Left
-    fill(tab, size, (t_point){current.x + 1, current.y}, target, tofillwith); // Right
-    fill(tab, size, (t_point){current.x, current.y - 1}, target, tofillwith); // Up
-    fill(tab, size, (t_point){current.x, current.y + 1}, target, tofillwith); // Down
+void flood_fill1(char **tab, int i , int j, char oldcolor, t_point size)
+{
+	if(i < 0 || i >= size.y || j < 0 || j >= size.x || tab[i][j] != oldcolor || tab[i][j] == 'F')
+		return ;
+	tab[i][j] = 'F';
+	flood_fill1(tab, i + 1, j, oldcolor, size);
+	flood_fill1(tab, i - 1, j, oldcolor, size);
+	flood_fill1(tab, i, j + 1, oldcolor, size);
+	flood_fill1(tab, i, j - 1, oldcolor, size);
 }
 
-void flood_fill(char **tab, t_point size, t_point begin)
+void  flood_fill(char **tab, t_point size, t_point begin)
 {
-    char target = tab[begin.y][begin.x]; // The character to be replaced
-    char tofillwith = 'F'; // The character to fill with
-
-    // Ensure that the starting point is within bounds
-    if (begin.x < 0 || begin.x >= size.x || begin.y < 0 || begin.y >= size.y)
-        return;
-
-    // Perform flood fill
-    fill(tab, size, begin, target, tofillwith);
+	flood_fill1(tab, begin.y,begin.x, tab[begin.y][begin.x], size);
 }

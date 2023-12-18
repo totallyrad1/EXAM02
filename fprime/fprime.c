@@ -1,42 +1,40 @@
-#include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-int	ft_is_prime(int nb)
+int isprime(long nb)
 {
-	int	i;
-
-	i = 2;
-	if (nb <= 1)
-		return (0);
-	while (i <= nb / i)
+	int i = 2;
+	if(nb <= 1)
+		return 0;
+	while(i < nb)
 	{
-		if (nb % i == 0)
-			return (0);
+		if(nb % i == 0)
+			return 0;
 		i++;
 	}
-	return (1);
+	return 1;
 }
 
 int main(int ac, char **av)
 {
 	if(ac == 2)
 	{
-		int j = 2;
-		int i = atoi(av[1]);
-		while(j <= i)
+		int nb = atoi(av[1]);
+		int i = 0;
+		while(i <= nb)
 		{
-			while (ft_is_prime(j)) 
+			while(isprime(i))
 			{
-				if (i % j == 0)
-					printf("%d",j);
+				if(nb % i == 0)
+					printf("%d", i);
 				else
 				 	break ;
-				if(j < i)
+				if(i < nb)
 					printf("*");
-				i = i /j;
+				nb = nb / i;
 			}
-			j++;
+			i++;
 		}
 	}
 	printf("\n");
